@@ -1,20 +1,21 @@
 <template>
-  <div class="container">
+  <div class="container-video">
     <div class="ques"></div>
-    <van-skeleton title :row="3" />
+    <van-skeleton title avatar :row="3" />
     <div class="ques"></div>
-    <van-skeleton title :row="3" />
+
+    <van-skeleton title avatar :row="3" />
     <div class="ques"></div>
-    <van-skeleton title :row="3" />
+
+    <van-skeleton title avatar :row="3" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'question'
+  name: 'videos'
 }
 </script>
 
 <style lang="less" scoped>
-
 </style>

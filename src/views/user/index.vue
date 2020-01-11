@@ -1,10 +1,16 @@
 <template>
-  <div>首页模块</div>
+  <div>用户
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'home'
+  name: 'user',
+  methods: {
+    show () {
+
+    }
+  }
 }
 </script>
 
