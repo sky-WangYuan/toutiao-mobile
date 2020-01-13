@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import { login } from '@/api/user'
+import { mapMutations } from 'vuex'
 export default {
   name: 'login',
   data () {
@@ -78,11 +80,15 @@ export default {
     },
 
     // 点击登陆
-    login () {
+    async login () {
       if (this.mobileBlur() && this.codeBlur()) {
-        console.log('验证通过')
+        // console.log('验证通过')
+        const data = await login(this.loginForm)
+        // console.log(result)
+        this.updateUser({ user: data })
       }
-    }
+    },
+    ...mapMutations(['updateUser']) // 将mapMutations方法映射到方法中
   }
 }
 </script>
