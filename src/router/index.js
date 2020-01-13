@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Home from '@/views/home'
 
 // 需要的时候再去加载
 const Article = () => import('@/views/article')

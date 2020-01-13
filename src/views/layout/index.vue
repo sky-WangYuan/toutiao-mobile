@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <van-nav-bar title="黑马头条" right-text="搜索" @click-right="$router.push('/search')"></van-nav-bar>
+    <van-nav-bar title="黑马头条" v-if="isShow" right-text="搜索" @click-right="$router.push('/search')"></van-nav-bar>
     <div class="my-wapper">
         <router-view></router-view>
     </div>
@@ -15,7 +15,12 @@
 
 <script>
 export default {
-  name: 'layout'
+  name: 'layout',
+  computed: {
+    isShow () {
+      return this.$route.path !== '/user'
+    }
+  }
 }
 </script>
 
