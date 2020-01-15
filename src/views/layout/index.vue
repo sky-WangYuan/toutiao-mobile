@@ -1,14 +1,14 @@
 <template>
   <div class="container">
-    <van-nav-bar title="黑马头条" v-if="isShow" right-text="搜索" @click-right="$router.push('/search')"></van-nav-bar>
-    <div class="my-wapper">
-        <router-view></router-view>
+    <van-nav-bar v-if="path!=='/user'" fixed title="黑马头条" right-text="搜索" @click-right="$router.push('/search')"/>
+    <div class="my-wrapper">
+      <router-view></router-view>
     </div>
     <van-tabbar router>
-      <van-tabbar-item to='/' icon="home-o">首页</van-tabbar-item>
-      <van-tabbar-item to='/question' icon="chat-o">问答</van-tabbar-item>
-      <van-tabbar-item to='/video' icon="video-o">视频</van-tabbar-item>
-      <van-tabbar-item to='/user' icon="user-o">我的</van-tabbar-item>
+      <van-tabbar-item to="/" icon="home-o">首页</van-tabbar-item>
+      <van-tabbar-item to="/question" icon="chat-o">问答</van-tabbar-item>
+      <van-tabbar-item to="/video" icon="video-o">视频</van-tabbar-item>
+      <van-tabbar-item to="/user" icon="user-o">我的</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -16,6 +16,11 @@
 <script>
 export default {
   name: 'layout',
+  data () {
+    return {
+      path: ''
+    }
+  },
   computed: {
     isShow () {
       return this.$route.path !== '/user'

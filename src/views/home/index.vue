@@ -1,29 +1,29 @@
 <template>
-  <div>
-    <van-tabs swipeable v-model="active">
-      <van-tab :title="'标签'+ item" v-for="item in 10" :key="item" >
-        <div class="scroll-wrapper">
-          <!-- 内容区域 -->
-          <van-cell-group>
-            <van-cell :title="item" v-for="obj in 20" :key="obj" />
-          </van-cell-group>
-        </div>
+  <div class="container">
+    <van-tabs v-model="activeIndex" swipeable>
+      <van-tab :title="'标签' +  item" v-for="item in 10" :key="item">
+        <!-- 这里注意 这个div设置了滚动条 目的是 给后面做 阅读记忆 留下伏笔 -->
+        <!-- 阅读记忆 => 看文章看到一半 滑到中部 去了别的页面 当你回来时 文章还在你看的位置 -->
+        <article-list></article-list>
       </van-tab>
-      <!-- 导航按钮 -->
-      <span class="bar_btn">
-        <van-icon name="wap-nav"></van-icon>
-      </span>
     </van-tabs>
+    <span class="bar_btn">
+      <van-icon name="wap-nav" />
+    </span>
   </div>
 </template>
 
 <script>
+import ArticleList from './components/article-list'
 export default {
   name: 'home',
   data () {
     return {
-      active: 0
+      activeIndex: 0
     }
+  },
+  components: {
+    ArticleList
   }
 }
 </script>
@@ -44,13 +44,13 @@ export default {
       height: 2px;
     }
   }
-  /deep/ .van-tabs__content {
+  /deep/ .van-tabs__content{
     flex: 1;
     overflow: hidden;
   }
-  /deep/ .van-tab__pane {
+  /deep/ .van-tab__pane{
     height: 100%;
-    .scroll-wrapper {
+    .scroll-wrapper{
       height: 100%;
       overflow-y: auto;
     }

@@ -83,12 +83,18 @@ export default {
     async login () {
       if (this.mobileBlur() && this.codeBlur()) {
         // console.log('验证通过')
-        const data = await login(this.loginForm)
-        // console.log(result)
-        this.updateUser({ user: data })
+
+        const data = await login(this.loginForm) // 获取结果--有token 需要更新token
+        this.updateUser({ user: data }) // 更新用户信息
+        // 登陆成功信息
+        this.$notify({ type: 'success', message: '登陆成功', duration: 1000 }) // vant插件里面的notify方法
+
+        // 跳转--redirectUrl（登陆未遂）--如果有redirectUrl，跳转到redirectUrl，否则返回登录页
+        let { redirectUrl } = this.$route.query // 解构出当前路由信息
+        this.$router.push(redirectUrl || '/') // 有redirectUrl跳否则回登陆
       }
     },
-    ...mapMutations(['updateUser']) // 将mapMutations方法映射到方法中
+    ...mapMutations(['updateUser']) // 将store下的index方法 用mapMutations方法映射到方法中
   }
 }
 </script>

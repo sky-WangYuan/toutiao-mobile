@@ -18,11 +18,14 @@ const instance = axios.create({
 })
 
 // 2.请求拦截器注入token
-instance.interceptors.request.use(config => {
+instance.interceptors.request.use(function (config) {
   // 如果有token  注入token
+
   if (store.state.user.token) {
     config.headers['Authorization'] = `Bearer ${store.state.user.token}`
   }
+  // 配置信息
+  return config
 }, error => Promise.reject(error))
 
 // 2.响应拦截器返回数据
