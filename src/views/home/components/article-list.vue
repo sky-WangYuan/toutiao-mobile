@@ -41,7 +41,16 @@ export default {
       finished: false, // 完成
       articles: [], // 存放的数组
       downLoading: false, // 是否开启----下拉刷新---状态
-      refreshSuccessText: '更新成功' // 下拉显示的文本
+      refreshSuccessText: '更新成功', // 下拉显示的文本
+      timestamp: null // 定义时间戳，告诉服务器现在需要什么样的时间数据
+    }
+  },
+  // 传值
+  props: {
+    channel_id: {
+      type: Number,
+      required: true, // 必填项
+      dafault: null
     }
   },
   methods: {
