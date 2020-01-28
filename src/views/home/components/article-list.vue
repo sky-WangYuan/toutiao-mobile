@@ -4,24 +4,24 @@
     <van-pull-refresh v-model="downLoading" @refresh="onRefresh" :success-text="refreshSuccessText">
       <!-- 上拉加载 -->
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <van-cell v-for="item in articles" :key="item">
+        <van-cell v-for="item in articles" :key="item.art_id.toString()">
           <div class="article_item">
-            <h3 class="van-ellipsis">PullRefresh下拉刷新PullRefresh下拉刷新下拉刷新下拉刷新</h3>
+            <h3 class="van-ellipsis">{{item.title}}</h3>
             <!-- 三图模式 -->
-            <div class="img_box">
-              <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-              <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-              <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+            <div class="img_box" v-if="item.cover.type===3">
+              <van-image class="w33" fit="cover" :src="item.cover.images[0]" />
+              <van-image class="w33" fit="cover" :src="item.cover.images[1]" />
+              <van-image class="w33" fit="cover" :src="item.cover.images[2]" />
             </div>
             <!-- 单图模式 -->
-            <div class="img_box">
+            <div class="img_box" v-if="item.cover.type===1">
               <van-image class="w100" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
             </div>
             <!-- 底部评论 -->
             <div class="info_box">
-              <span>你像一阵风</span>
-              <span>8评论</span>
-              <span>10分钟前</span>
+              <span>{{item.aut_name}}</span>
+              <span>{{item.comm_count}}评论</span>
+              <span>{{item.pubdate}}</span>
               <span class="close">
                 <van-icon name="cross"></van-icon>
               </span>
@@ -34,12 +34,13 @@
 </template>
 
 <script>
+import { getArticles } from '@/api/article'
 export default {
   data () {
     return {
       loading: false, // 是否开启上拉加载状态
       finished: false, // 完成
-      articles: [], // 存放的数组
+      articles: [], // 存放渲染文章的数组
       downLoading: false, // 是否开启----下拉刷新---状态
       refreshSuccessText: '更新成功', // 下拉显示的文本
       timestamp: null // 定义时间戳，告诉服务器现在需要什么样的时间数据
@@ -55,20 +56,28 @@ export default {
   },
   methods: {
     // 上拉加载--数据添加在尾部
-    onLoad () {
+    async onLoad () {
+      let data = await getArticles({ channel_id: this.channel_id, timestamp: this.timestamp || Date.now() })
+      this.articles.push(...data.results) // results是后台接口文档中的返回值
+      this.loading = false // 关闭状态
+      if (data.pre_timestamp) {
+        this.timestamp = data.pre_timestamp
+      } else {
+        this.loading = false
+      }
       // console.log('加载中')
-      setTimeout(() => {
-        if (this.articles.length < 50) {
-          let arr = Array.from(
-            Array(10),
-            (value, index) => this.articles.length + index + 1
-          )
-          this.articles.push(...arr)
-          this.loading = false
-        } else {
-          this.finished = true
-        }
-      }, 1000)
+      // setTimeout(() => {
+      //   if (this.articles.length < 50) {
+      //     let arr = Array.from(
+      //       Array(10),
+      //       (value, index) => this.articles.length + index + 1
+      //     )
+      //     this.articles.push(...arr)
+      //     this.loading = false
+      //   } else {
+      //     this.finished = true
+      //   }
+      // }, 1000)
     },
     // 下拉刷新--数据添加在头部
     onRefresh () {

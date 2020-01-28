@@ -21,7 +21,8 @@ export default {
   data () {
     return {
       activeIndex: 0, // 默认启动第0个标签
-      channels: [] // 接受频道的数据
+      channels: [], // 接受频道的数据
+      channel_id: 0
     }
   },
   components: {
