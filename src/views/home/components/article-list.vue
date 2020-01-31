@@ -57,6 +57,7 @@ export default {
   methods: {
     // 上拉加载--数据添加在尾部
     async onLoad () {
+      await this.$sleep(1000) // 加载500s后刷新（util下plugin中封装的时间延迟方法）
       let data = await getArticles({ channel_id: this.channel_id, timestamp: this.timestamp || Date.now() })
       this.articles.push(...data.results) // results是后台接口文档中的返回值
       this.loading = false // 关闭状态
@@ -81,6 +82,7 @@ export default {
     },
     // 下拉刷新--数据添加在头部
     async onRefresh () {
+      await this.$sleep(3000)
       const data = await getArticles({ channel_id: this.channel_id, timestamp: Date.now() })
       this.downLoading = false // 关掉下拉状态
       if (data.results.length) { // 如果有数据
