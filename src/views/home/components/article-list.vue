@@ -80,15 +80,26 @@ export default {
       // }, 1000)
     },
     // 下拉刷新--数据添加在头部
-    onRefresh () {
+    async onRefresh () {
+      const data = await getArticles({ channel_id: this.channel_id, timestamp: Date.now() })
+      this.downLoading = false // 关掉下拉状态
+      if (data.results.length) { // 如果有数据
+        this.articles = data.results // 将历史数据覆盖掉
+        this.finished = false // 打开下拉状态
+        this.timestamp = data.pre_timestamp// 赋值历史时间戳
+        this.refreshSuccessText = `更新了${data.results.length}条数据`
+      } else {
+        // 如果没有数据更新的话，只需提示
+        this.refreshSuccessText = `已经是最新数据`
+      }
       // console.log('下拉刷新')
-      setTimeout(() => {
-        // setTimeout模拟延迟
-        let arr = Array.from(Array(10), (value, index) => '追加' + index + 1) // 快速生成的假数据方法(模拟数据,索引从0开始，加1为了直观看效果)
-        this.articles.unshift(...arr) // 将新数据添加在数组头部
-        this.downLoading = false
-        this.refreshSuccessText = `更新了${arr.length}条数据`
-      }, 1000)
+      // setTimeout(() => {
+      //   // setTimeout模拟延迟
+      //   let arr = Array.from(Array(10), (value, index) => '追加' + index + 1) // 快速生成的假数据方法(模拟数据,索引从0开始，加1为了直观看效果)
+      //   this.articles.unshift(...arr) // 将新数据添加在数组头部
+      //   this.downLoading = false
+      //   this.refreshSuccessText = `更新了${arr.length}条数据`
+      // }, 1000)
     }
   }
 }
