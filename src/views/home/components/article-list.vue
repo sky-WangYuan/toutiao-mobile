@@ -9,19 +9,19 @@
             <h3 class="van-ellipsis">{{item.title}}</h3>
             <!-- 三图模式 -->
             <div class="img_box" v-if="item.cover.type===3">
-              <van-image class="w33" fit="cover" :src="item.cover.images[0]" />
-              <van-image class="w33" fit="cover" :src="item.cover.images[1]" />
-              <van-image class="w33" fit="cover" :src="item.cover.images[2]" />
+              <van-image lazy-load class="w33" fit="cover" :src="item.cover.images[0]" />
+              <van-image lazy-load class="w33" fit="cover" :src="item.cover.images[1]" />
+              <van-image lazy-load class="w33" fit="cover" :src="item.cover.images[2]" />
             </div>
             <!-- 单图模式 -->
             <div class="img_box" v-if="item.cover.type===1">
-              <van-image class="w100" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+              <van-image lazy-load class="w100" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
             </div>
             <!-- 底部评论 -->
             <div class="info_box">
               <span>{{item.aut_name}}</span>
               <span>{{item.comm_count}}评论</span>
-              <span>{{item.pubdate}}</span>
+              <span>{{item.pubdate | relTime}}</span>
               <span class="close">
                 <van-icon name="cross"></van-icon>
               </span>
@@ -57,6 +57,7 @@ export default {
   methods: {
     // 上拉加载--数据添加在尾部
     async onLoad () {
+      await this.$sleep(1000)
       let data = await getArticles({ channel_id: this.channel_id, timestamp: this.timestamp || Date.now() })
       this.articles.push(...data.results) // results是后台接口文档中的返回值
       this.loading = false // 关闭状态
@@ -81,6 +82,7 @@ export default {
     },
     // 下拉刷新--数据添加在头部
     async onRefresh () {
+      await this.$sleep(1000)
       const data = await getArticles({ channel_id: this.channel_id, timestamp: Date.now() })
       this.downLoading = false // 关掉下拉状态
       if (data.results.length) { // 如果有数据
