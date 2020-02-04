@@ -22,7 +22,8 @@
               <span>{{item.aut_name}}</span>
               <span>{{item.comm_count}}评论</span>
               <span>{{item.pubdate | relTime}}</span>
-              <span class="close">
+              <!-- 子组件给父组件传值-- 大数字id-->
+              <span class="close" v-if="user.token" @click="$emit('zichuanfu',item.art_id.toString())">
                 <van-icon name="cross"></van-icon>
               </span>
             </div>
@@ -35,6 +36,7 @@
 
 <script>
 import { getArticles } from '@/api/article'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -53,6 +55,9 @@ export default {
       required: true, // 必填项
       dafault: null
     }
+  },
+  computed: {
+    ...mapState(['user'])
   },
   methods: {
     // 上拉加载--数据添加在尾部
